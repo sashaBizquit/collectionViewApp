@@ -17,7 +17,7 @@
 
 @implementation RootCVC
 
-static NSString * const reuseIdentifier = @"cell";
+static NSString* const reuseIdentifier = @"cell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -28,12 +28,11 @@ static NSString * const reuseIdentifier = @"cell";
     
 }
 
-- (IBAction)refresh:(id)sender {
+- (IBAction) refresh: (id) sender {
     [_toyProvider refresh];
-    
 }
 
--(void) updateToyArrayWithCount:(NSUInteger) count {
+- (void) updateToyArrayWithCount: (NSUInteger) count {
     if (_toyArray == nil) {
         _toyArray = [NSMutableArray new];
     }
@@ -41,23 +40,23 @@ static NSString * const reuseIdentifier = @"cell";
         [_toyArray removeAllObjects];
     }
     
-    for ( NSUInteger i = 0 ; i < count; i++ ) {
+    for (NSUInteger i = 0 ; i < count; i++) {
         [_toyArray addObject: [Toy new]];
     }
 }
 #pragma mark - <UICollectionViewDataSource>
 
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+- (NSInteger) numberOfSectionsInCollectionView: (UICollectionView *) collectionView {
     return 1;
 }
 
 
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+- (NSInteger)collectionView: (UICollectionView *) collectionView numberOfItemsInSection: (NSInteger) section {
     return _toyArray.count;
 }
 
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *) indexPath {
-    ElementCVC *cell = [collectionView dequeueReusableCellWithReuseIdentifier: reuseIdentifier forIndexPath: indexPath];
+- (UICollectionViewCell *) collectionView: (UICollectionView *) collectionView cellForItemAtIndexPath: (NSIndexPath *) indexPath {
+    ElementCVC* cell = [collectionView dequeueReusableCellWithReuseIdentifier: reuseIdentifier forIndexPath: indexPath];
     Toy* currentToy = _toyArray[indexPath.row];
     
     cell.image.image = (currentToy.image)? currentToy.image: [UIImage imageNamed: @"Loading"];
@@ -68,11 +67,11 @@ static NSString * const reuseIdentifier = @"cell";
 
 #pragma mark - <ToyProviderDelegate>
 
--(void) requestDidCompleteToyNames:(NSArray*) names {
+- (void) requestDidCompleteToyNames: (NSArray*) names {
     
-    [self updateToyArrayWithCount:names.count];
+    [self updateToyArrayWithCount: names.count];
     
-    for( NSUInteger i = 0; i < _toyArray.count; i++) {
+    for(NSUInteger i = 0; i < _toyArray.count; i++) {
         Toy* currentToy = names[i];
         [_toyArray replaceObjectAtIndex: i withObject: [Toy initWithName: currentToy.name andImage: currentToy.image]];
     }
@@ -83,14 +82,14 @@ static NSString * const reuseIdentifier = @"cell";
     
 }
 
--(void) requestDidCompleteToyImage:(NSArray*) image withIndex:(NSUInteger) index {
+- (void) requestDidCompleteToyImage: (NSArray*) image withIndex: (NSUInteger) index {
     Toy* currentToy = _toyArray[index];
     
-    NSData *pngData = UIImagePNGRepresentation(image.firstObject);
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsPath = [paths objectAtIndex: 0];
-    NSString *name = [NSString stringWithFormat: @"%@.png", currentToy.name];
-    NSString *filePath = [documentsPath stringByAppendingPathComponent: name];
+    NSData* pngData = UIImagePNGRepresentation(image.firstObject);
+    NSArray* paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString* documentsPath = [paths objectAtIndex: 0];
+    NSString* name = [NSString stringWithFormat: @"%@.png", currentToy.name];
+    NSString* filePath = [documentsPath stringByAppendingPathComponent: name];
     
     if (![[NSFileManager defaultManager] fileExistsAtPath: filePath]) {
         [pngData writeToFile: filePath atomically: YES];

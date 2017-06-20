@@ -27,8 +27,7 @@
 
 -(void) initRequest {
         NSMutableArray* cacheArr = [[NSMutableArray alloc] initWithArray: _toyCacheProvider.getToyArray];
-        if(cacheArr.count) {
-            
+        if (cacheArr.count) {
             [self requestWithProvider: _toyCacheProvider andArray: cacheArr];
         }
         else {
@@ -37,7 +36,6 @@
 }
 
 -(void) refresh{
-    
     NSMutableArray* webArr = [[NSMutableArray alloc] initWithArray: _toyWebProvider.getToyArray];
     [self requestWithProvider: _toyWebProvider andArray: webArr];
 }
@@ -49,10 +47,9 @@
 -(void) requestWithProvider: (id<ToyProviderProtocol>) someProvider andArray: (NSMutableArray*) arr {
     
     NSMutableArray* toyArr = arr;
-    
     [someProvider.delegate requestDidCompleteToyNames: toyArr.copy];
     
-    for( NSUInteger i = 0 ; i < toyArr.count ; i++ ) {
+    for (NSUInteger i = 0 ; i < toyArr.count ; i++) {
         Toy* toy = [toyArr objectAtIndex: i];
         [someProvider getImageWith: toy.imageURL andIndex: i];
     }
@@ -77,20 +74,14 @@
 }
 
 -(UIImage*) getImageWithToy: (Toy*) toy {
-    
     NSData *imageData = [NSData dataWithContentsOfURL: toy.imageURL];
     UIImage* image = [UIImage imageWithData: imageData];
     return image;
 }
 
--(void) getImageWith:(NSURL *)url andIndex:(NSUInteger)index {
-    
+-(void) getImageWith: (NSURL *) url andIndex: (NSUInteger) index {
     UIImage* image = [UIImage imageNamed: url.absoluteString];
     [self.delegate requestDidCompleteToyImage: @[image] withIndex: index];
-}
-
--(NSURL*) getImageURL:  (Toy*) toy{
-    return toy.imageURL;
 }
 
 @end

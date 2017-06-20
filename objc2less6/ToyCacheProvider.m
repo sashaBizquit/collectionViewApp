@@ -126,11 +126,6 @@ static NSString * const modelName = @"ToyModel";
     [self.delegate requestDidCompleteToyImage: @[image] withIndex: index];
 }
 
--(NSURL*) getImageURL: (Toy*) toy {
-    return toy.imageURL;
-    
-}
-
 -(void) setDelegate: (id<ToyProviderDelegate>) delegate {
     _delegate = delegate;
 }

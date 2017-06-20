@@ -10,7 +10,7 @@
 
 @implementation Toy
 
--(instancetype) initWithName: (NSString*) name andimageURL:(NSURL*) imageURL andImage:(UIImage*) image{
+- (instancetype) initWithName: (NSString*) name andimageURL:(NSURL*) imageURL andImage:(UIImage*) image{
     if(self = [super init]){
         _name = name;
         _image = image;
@@ -20,19 +20,19 @@
     return self;
 }
 
-+(instancetype) initWithName:(NSString*) name andImage:(UIImage*) image{
++ (instancetype) initWithName: (NSString*) name andImage: (UIImage*) image{
     return [[Toy alloc] initWithName: name
                          andimageURL: nil
                             andImage: image];
 }
 
-+(instancetype) initWithName:(NSString*) name andImageURL:(NSURL*) imageURL{
++ (instancetype) initWithName:(NSString*) name andImageURL: (NSURL*) imageURL{
     return [[Toy alloc] initWithName: name
                          andimageURL: imageURL
                             andImage: nil];
 }
 
-+(instancetype) initWithDataModel: (ToyModel*) toyModel{
++ (instancetype) initWithDataModel: (ToyModel*) toyModel{
     
     NSURL* url = [NSURL URLWithString: toyModel.imageURL];
     return [[Toy alloc] initWithName: toyModel.name
@@ -40,7 +40,7 @@
                             andImage: nil];
 }
 
-+(instancetype) createNewToy{
++ (instancetype) createNewToy{
     Toy* newToy = [Toy new];
     switch (arc4random()%10) {
         case 0:

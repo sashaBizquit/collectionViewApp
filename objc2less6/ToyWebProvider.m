@@ -18,9 +18,8 @@
 
 static NSString * const rssString = @"https://raw.githubusercontent.com/sashaBizquit/objc2less1/master/toys.json";
 
--(instancetype) init {
+- (instancetype) init {
     if(self = [super init]) {
-        
         NSURLSessionConfiguration* configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
         configuration.HTTPMaximumConnectionsPerHost = 10;
         self.session = [NSURLSession sessionWithConfiguration: configuration];
@@ -30,11 +29,11 @@ static NSString * const rssString = @"https://raw.githubusercontent.com/sashaBiz
 
 #pragma mark - <ToyProviderProtocol>
 
--(void) setDelegate: (id<ToyProviderDelegate>) delegate {
+- (void) setDelegate: (id<ToyProviderDelegate>) delegate {
     _delegate = delegate;
 }
 
--(NSArray*) getToyArray {
+- (NSArray*) getToyArray {
     NSArray* toyArray = [[NSArray alloc] initWithArray: [self loadingSession]];
     
     NSMutableArray* tempArray = [NSMutableArray new];
@@ -47,46 +46,17 @@ static NSString * const rssString = @"https://raw.githubusercontent.com/sashaBiz
     return tempArray.copy;
 }
 
--(void) getImageWith:(NSURL *)url andIndex:(NSUInteger)index {
+- (void) getImageWith: (NSURL *) url andIndex: (NSUInteger) index {
     
     NSURLSessionDataTask * dataTask = [self.session dataTaskWithURL: url
-                                             completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                                                 UIImage *image = [UIImage imageWithData: data];
-                                                 
-                                                 
-                                                 [self.delegate requestDidCompleteToyImage: @[image] withIndex: index];
+                                                  completionHandler: ^(NSData *data, NSURLResponse *response, NSError *error) {
+                                                      UIImage *image = [UIImage imageWithData: data];
+                                                      [self.delegate requestDidCompleteToyImage: @[image] withIndex: index];
                                              }
                                        ];
     [dataTask resume];
 }
 
--(NSURL*) getImageURL: (Toy*) toy{
-    NSMutableArray* cover = [NSMutableArray new];
-    NSURLSession *session = [NSURLSession sharedSession];
-    dispatch_group_t group = dispatch_group_create();
-    dispatch_group_enter(group);
-
-    NSURLSessionDataTask * dataTask = [session dataTaskWithURL: toy.imageURL
-                                             completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                                                 UIImage *image = [UIImage imageWithData: data];
-                                           
-                                                 NSData *pngData = UIImagePNGRepresentation(image);
-                                                 NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-                                                 NSString *documentsPath = [paths objectAtIndex: 0];
-                                                 NSString *name = [NSString stringWithFormat: @"%@.png", toy.name];
-                                                 NSString *filePath = [documentsPath stringByAppendingPathComponent: name];
-                                           
-                                                 [pngData writeToFile: filePath atomically: NO];
-                                           
-                                                 [cover addObject: [NSURL fileURLWithPath: filePath]];
-                                                 dispatch_group_leave(group);
-                                             }
-                                       ];
-    [dataTask resume];
-    dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
-    
-    return [cover firstObject];
-}
 
 #pragma mark - Connection Trigger Method
 
@@ -98,8 +68,7 @@ static NSString * const rssString = @"https://raw.githubusercontent.com/sashaBiz
     NSURL *url = [NSURL URLWithString: rssString];
     NSURLSession *session = [NSURLSession sharedSession];
     NSURLSessionDataTask * dataTask = [session dataTaskWithURL: url
-                                             completionHandler:^
-                                       (NSData *data, NSURLResponse *response, NSError *error) {
+                                             completionHandler:^ (NSData *data, NSURLResponse *response, NSError *error) {
                                            NSMutableDictionary *dict  = [NSJSONSerialization JSONObjectWithData: data
                                                                                                         options: 0
                                                                                                           error: NULL];
