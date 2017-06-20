@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11759" systemVersion="16D32" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Image" representedClassName="NSManagedObject" syncable="YES" codeGenerationType="class">
+        <attribute name="image" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <relationship name="toy" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Toy" inverseName="image" inverseEntity="Toy" syncable="YES"/>
+    </entity>
+    <entity name="Toy" representedClassName="Toy" syncable="YES" codeGenerationType="class">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="image" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Image" inverseName="toy" inverseEntity="Image" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Toy" positionX="-243" positionY="-36" width="128" height="73"/>
+        <element name="Image" positionX="-54" positionY="9" width="128" height="73"/>
+    </elements>
+</model>
